@@ -3,15 +3,13 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { FcGoogle } from "react-icons/fc";
 import Image from "next/image";
 import toast from "react-hot-toast";
-
 
 const NextLoginPage = () => {
   const router = useRouter();
   const [error, setError] = useState("");
-  // const session = useSession();
+  const [loading, setLoading] = useState(false);
   const { data: session, status: sessionStatus } = useSession();
 
   useEffect(() => {
@@ -20,47 +18,66 @@ const NextLoginPage = () => {
     }
   }, [sessionStatus, router]);
 
-  const isValidEmail = (email: string) => {
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError(""); // Clear previous error
+
     const email = e.target[0].value;
     const password = e.target[1].value;
+    const rememberMe = e.target["remember-me"].checked;
 
     if (!isValidEmail(email)) {
       setError("Email is invalid");
       toast.error("Email is invalid");
+      setLoading(false);
       return;
     }
 
     if (!password || password.length < 8) {
-      setError("Password is invalid");
-      toast.error("Password is invalid");
+      setError("Password must be at least 8 characters");
+      toast.error("Password must be at least 8 characters");
+      setLoading(false);
       return;
     }
 
-    const res = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
+    try {
+      const res = await signIn("credentials", {
+        redirect: false,
+        email,
+        password,
+      });
 
-    if (res?.error) {
-      setError("Invalid email or password");
-      toast.error("Invalid email or password");
-      if (res?.url) router.replace("/dashboard");
-    } else {
-      setError("");
-      toast.success("Successful login");
+      if (res?.error) {
+        setError("Invalid email or password");
+        toast.error("Invalid email or password");
+      } else {
+        setError("");
+        toast.success("Successful login");
+        if (rememberMe) {
+          localStorage.setItem("session", JSON.stringify(res));
+        } else {
+          sessionStorage.setItem("session", JSON.stringify(res));
+        }
+        router.replace("/dashboard");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("An error occurred. Please try again later.");
+      toast.error("An error occurred. Please try again later.");
     }
+    setLoading(false);
   };
 
   if (sessionStatus === "loading") {
     return <h1>Loading...</h1>;
   }
+
   return (
     sessionStatus !== "authenticated" && (
       <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -75,10 +92,7 @@ const NextLoginPage = () => {
           <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
+                <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                   Email address
                 </label>
                 <div className="mt-2">
@@ -88,16 +102,15 @@ const NextLoginPage = () => {
                     type="email"
                     autoComplete="email"
                     required
+                    aria-describedby="email-error"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
+                  {error.includes("Email") && <p id="email-error" className="text-red-600 text-sm mt-1">{error}</p>}
                 </div>
               </div>
 
               <div>
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
+                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                   Password
                 </label>
                 <div className="mt-2">
@@ -107,12 +120,12 @@ const NextLoginPage = () => {
                     type="password"
                     autoComplete="current-password"
                     required
+                    aria-describedby="password-error"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
+                  {error.includes("Password") && <p id="password-error" className="text-red-600 text-sm mt-1">{error}</p>}
                 </div>
               </div>
-
-              
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
@@ -122,19 +135,13 @@ const NextLoginPage = () => {
                     type="checkbox"
                     className="h-4 w-4 rounded border-gray-300 text-black focus:ring-black"
                   />
-                  <label
-                    htmlFor="remember-me"
-                    className="ml-3 block text-sm leading-6 text-gray-900"
-                  >
+                  <label htmlFor="remember-me" className="ml-3 block text-sm leading-6 text-gray-900">
                     Remember me
                   </label>
                 </div>
 
                 <div className="text-sm leading-6">
-                  <Link
-                    href="#"
-                    className="text-black hover:text-gray-900"
-                  >
+                  <Link href="#" className="text-black hover:text-gray-900">
                     Forgot password?
                   </Link>
                 </div>
@@ -143,34 +150,16 @@ const NextLoginPage = () => {
               <div>
                 <button
                   type="submit"
-                  className="flex w-full border border-black justify-center rounded-md bg-black px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-white transition-colors hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                  disabled={loading}
+                  className={`flex w-full border justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 ${loading ? 'bg-gray-500' : 'bg-black'} text-white shadow-sm hover:bg-white transition-colors hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
                 >
-                  Sign in
+                  {loading ? "Logging in..." : "Sign in"}
                 </button>
               </div>
             </form>
 
-            <div>
-              <div className="relative mt-10">
-                <div
-                  className="absolute inset-0 flex items-center"
-                  aria-hidden="true"
-                >
-                  <div className="w-full border-t border-gray-200" />
-                </div>
-                <div className="relative flex justify-center text-sm font-medium leading-6">
-                  <span className="bg-white px-6 text-gray-900">
-                    Or continue with
-                  </span>
-                </div>
-              </div>
-
-              <div className="mt-6 grid grid-cols-2 gap-4">
-              
-              </div>
-              <p className="text-red-600 text-center text-[16px] my-4">
-                  {error && error}
-                </p>
+            <div className="mt-6">
+              <p className="text-red-600 text-center text-[16px] my-4">{error && error}</p>
             </div>
           </div>
         </div>

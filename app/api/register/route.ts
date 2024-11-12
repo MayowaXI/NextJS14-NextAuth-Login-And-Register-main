@@ -7,7 +7,15 @@ import { sendVerificationEmail } from "@/utils/email";
 
 export const POST = async (request: any) => {
   try {
-    const { email, password } = await request.json();
+    const {
+      email,
+      password,
+      phone,
+      positionAppliedFor,
+      dateOfBirth,
+      lastName,
+      firstName
+    } = await request.json();
 
     await connect();
 
@@ -28,6 +36,11 @@ export const POST = async (request: any) => {
     const newUser = new User({
       email,
       password: hashedPassword,
+      phone,
+      positionAppliedFor,
+      dateOfBirth,
+      lastName,
+      firstName,
       isVerified: false,
       emailVerificationToken,
       emailVerificationTokenExpires: tokenExpiration,

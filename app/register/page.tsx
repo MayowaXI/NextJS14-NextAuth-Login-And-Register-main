@@ -3,12 +3,24 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
 import toast from "react-hot-toast";
 
-const RegisterPage = () => {
-  const [error, setError] = useState("");
+const ApplicationForm = () => {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    dateOfBirth: "",
+    positionAppliedFor: "",
+    phone: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    termsAccepted: false,
+  });
+
+  const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { data: session, status: sessionStatus } = useSession();
 
@@ -18,33 +30,64 @@ const RegisterPage = () => {
     }
   }, [sessionStatus, router]);
 
-  const isValidEmail = (email: string) => {
+  const isValidEmail = (email) => {
     const emailRegex =
       /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     return emailRegex.test(email);
   };
 
-  const handleSubmit = async (e: any) => {
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = "First Name is required";
+    }
+
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = "Last Name is required";
+    }
+
+    if (!formData.dateOfBirth) {
+      newErrors.dateOfBirth = "Date of Birth is required";
+    }
+
+    if (!formData.positionAppliedFor.trim()) {
+      newErrors.positionAppliedFor = "Position is required";
+    }
+
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone Number is required";
+    }
+
+    if (!isValidEmail(formData.email)) {
+      newErrors.email = "Email is invalid";
+    }
+
+    if (formData.password.length < 8) {
+      newErrors.password =
+        "Password must be at least 8 characters long";
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+    }
+
+    if (!formData.termsAccepted) {
+      newErrors.termsAccepted =
+        "You must accept the terms and conditions";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-    const confirmPassword = e.target.confirmpassword.value;
+    setLoading(true);
+    setErrors({});
 
-    if (!isValidEmail(email)) {
-      setError("Email is invalid");
-      toast.error("Email is invalid");
-      return;
-    }
-
-    if (!password || password.length < 8) {
-      setError("Password must be at least 8 characters long");
-      toast.error("Password must be at least 8 characters long");
-      return;
-    }
-
-    if (confirmPassword !== password) {
-      setError("Passwords do not match");
-      toast.error("Passwords do not match");
+    if (!validateForm()) {
+      setLoading(false);
       return;
     }
 
@@ -54,34 +97,30 @@ const RegisterPage = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
+        body: JSON.stringify(formData),
       });
 
       if (res.status === 400) {
         const errorText = await res.text();
         toast.error(errorText);
-        setError(errorText);
+        setErrors({ form: errorText });
       } else if (res.status === 200) {
-        setError("");
         setSuccessMessage(
-          "Registration successful. Please check your email to verify your account."
+          "Application submitted successfully. Please check your email to verify your account."
         );
-        toast.success("Registration successful. Please verify your email.");
-        // Optionally, redirect after a delay
-        // setTimeout(() => {
-        //   router.push("/login");
-        // }, 5000);
+        toast.success(
+          "Application submitted successfully. Please verify your email."
+        );
       } else {
         toast.error("An unexpected error occurred");
-        setError("An unexpected error occurred");
+        setErrors({ form: "An unexpected error occurred" });
       }
     } catch (error) {
-      console.error("Registration error:", error);
+      console.error("Submission error:", error);
       toast.error("Error, please try again");
-      setError("Error, please try again");
+      setErrors({ form: "Error, please try again" });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -93,140 +132,303 @@ const RegisterPage = () => {
     sessionStatus !== "authenticated" && (
       <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="flex justify-center flex-col items-center">
-          <Image src="/logo 1.png" alt="star logo" width={50} height={50} />
-          <h2 className="mt-6 text-center text-2xl leading-9 tracking-tight text-gray-900">
-            Sign up on our website
+          <h2 className="mt-6 text-center text-2xl font-bold tracking-tight text-gray-900">
+            Submit Your Application
           </h2>
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
           <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
             {successMessage ? (
-              <div>
-                <h2 className="text-center text-2xl font-semibold">
+              <div className="text-center">
+                <h2 className="text-2xl font-semibold text-green-600">
                   {successMessage}
                 </h2>
-                <p className="mt-4 text-center">
+                <p className="mt-4">
                   Didn't receive an email?{" "}
-                  <Link href="/resend-verification" className="text-blue-500">
+                  <Link
+                    href="/resend-verification"
+                    className="text-blue-500 underline"
+                  >
                     Resend Verification Email
                   </Link>
                 </p>
-                <p className="mt-4 text-center">
-                  <Link href="/login" className="text-blue-500">
+                <p className="mt-4">
+                  <Link
+                    href="/login"
+                    className="text-blue-500 underline"
+                  >
                     Go to Login
                   </Link>
                 </p>
               </div>
             ) : (
-              <form className="space-y-6" onSubmit={handleSubmit}>
-                {/* Email Field */}
+              <form
+                className="space-y-6"
+                onSubmit={handleSubmit}
+              >
+                {/* First Name */}
                 <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
+                  <label className="block text-sm font-medium text-gray-900 mb-1">
+                    First Name
+                  </label>
+                  <input
+                    name="firstName"
+                    type="text"
+                    value={formData.firstName}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        firstName: e.target.value,
+                      })
+                    }
+                    required
+                    className="w-full rounded-md border border-gray-300 py-2 px-3 focus:ring-2 focus:ring-indigo-600"
+                  />
+                  {errors.firstName && (
+                    <p className="text-red-600 text-sm">
+                      {errors.firstName}
+                    </p>
+                  )}
+                </div>
+
+                {/* Last Name */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-900 mb-1">
+                    Last Name
+                  </label>
+                  <input
+                    name="lastName"
+                    type="text"
+                    value={formData.lastName}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        lastName: e.target.value,
+                      })
+                    }
+                    required
+                    className="w-full rounded-md border border-gray-300 py-2 px-3 focus:ring-2 focus:ring-indigo-600"
+                  />
+                  {errors.lastName && (
+                    <p className="text-red-600 text-sm">
+                      {errors.lastName}
+                    </p>
+                  )}
+                </div>
+
+                {/* Date of Birth */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-900 mb-1">
+                    Date of Birth
+                  </label>
+                  <input
+                    name="dateOfBirth"
+                    type="date"
+                    value={formData.dateOfBirth}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        dateOfBirth: e.target.value,
+                      })
+                    }
+                    required
+                    className="w-full rounded-md border border-gray-300 py-2 px-3 focus:ring-2 focus:ring-indigo-600"
+                  />
+                  {errors.dateOfBirth && (
+                    <p className="text-red-600 text-sm">
+                      {errors.dateOfBirth}
+                    </p>
+                  )}
+                </div>
+
+                {/* Position Applied For */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-900 mb-1">
+                    Position Applied For
+                  </label>
+                  <input
+                    name="positionAppliedFor"
+                    type="text"
+                    value={formData.positionAppliedFor}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        positionAppliedFor:
+                          e.target.value,
+                      })
+                    }
+                    required
+                    className="w-full rounded-md border border-gray-300 py-2 px-3 focus:ring-2 focus:ring-indigo-600"
+                  />
+                  {errors.positionAppliedFor && (
+                    <p className="text-red-600 text-sm">
+                      {errors.positionAppliedFor}
+                    </p>
+                  )}
+                </div>
+
+                {/* Phone Number */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-900 mb-1">
+                    Phone Number
+                  </label>
+                  <input
+                    name="phone"
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        phone: e.target.value,
+                      })
+                    }
+                    required
+                    className="w-full rounded-md border border-gray-300 py-2 px-3 focus:ring-2 focus:ring-indigo-600"
+                  />
+                  {errors.phone && (
+                    <p className="text-red-600 text-sm">
+                      {errors.phone}
+                    </p>
+                  )}
+                </div>
+
+                {/* Email */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-900 mb-1">
                     Email address
                   </label>
-                  <div className="mt-2">
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      autoComplete="email"
-                      required
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900
-                      shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400
-                      focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    />
-                  </div>
+                  <input
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        email: e.target.value,
+                      })
+                    }
+                    required
+                    className="w-full rounded-md border border-gray-300 py-2 px-3 focus:ring-2 focus:ring-indigo-600"
+                  />
+                  {errors.email && (
+                    <p className="text-red-600 text-sm">
+                      {errors.email}
+                    </p>
+                  )}
                 </div>
 
-                {/* Password Field */}
+                {/* Password */}
                 <div>
-                  <label
-                    htmlFor="password"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
+                  <label className="block text-sm font-medium text-gray-900 mb-1">
                     Password
                   </label>
-                  <div className="mt-2">
-                    <input
-                      id="password"
-                      name="password"
-                      type="password"
-                      autoComplete="new-password"
-                      required
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900
-                      shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400
-                      focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    />
-                  </div>
+                  <input
+                    name="password"
+                    type="password"
+                    value={formData.password}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        password: e.target.value,
+                      })
+                    }
+                    required
+                    className="w-full rounded-md border border-gray-300 py-2 px-3 focus:ring-2 focus:ring-indigo-600"
+                  />
+                  {errors.password && (
+                    <p className="text-red-600 text-sm">
+                      {errors.password}
+                    </p>
+                  )}
                 </div>
 
-                {/* Confirm Password Field */}
+                {/* Confirm Password */}
                 <div>
-                  <label
-                    htmlFor="confirmpassword"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Confirm password
+                  <label className="block text-sm font-medium text-gray-900 mb-1">
+                    Confirm Password
                   </label>
-                  <div className="mt-2">
-                    <input
-                      id="confirmpassword"
-                      name="confirmpassword"
-                      type="password"
-                      autoComplete="new-password"
-                      required
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900
-                      shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400
-                      focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    />
-                  </div>
+                  <input
+                    name="confirmPassword"
+                    type="password"
+                    value={formData.confirmPassword}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        confirmPassword:
+                          e.target.value,
+                      })
+                    }
+                    required
+                    className="w-full rounded-md border border-gray-300 py-2 px-3 focus:ring-2 focus:ring-indigo-600"
+                  />
+                  {errors.confirmPassword && (
+                    <p className="text-red-600 text-sm">
+                      {errors.confirmPassword}
+                    </p>
+                  )}
                 </div>
 
-                {/* Terms and Privacy Policy */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <input
-                      id="terms"
-                      name="terms"
-                      type="checkbox"
-                      required
-                      className="h-4 w-4 rounded border-gray-300 text-black focus:ring-black"
-                    />
-                    <label
-                      htmlFor="terms"
-                      className="ml-3 block text-sm leading-6 text-gray-900"
+                {/* Terms and Conditions */}
+                <div className="flex items-center">
+                  <input
+                    name="termsAccepted"
+                    type="checkbox"
+                    checked={formData.termsAccepted}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        termsAccepted: e.target.checked,
+                      })
+                    }
+                    required
+                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-600 border-gray-300 rounded"
+                  />
+                  <label
+                    htmlFor="termsAccepted"
+                    className="ml-3 text-sm text-gray-900"
+                  >
+                    Accept our{" "}
+                    <Link
+                      href="/terms"
+                      className="text-blue-500 underline"
                     >
-                      Accept our{" "}
-                      <Link href="/terms" className="text-blue-500">
-                        terms
-                      </Link>{" "}
-                      and{" "}
-                      <Link href="/privacy" className="text-blue-500">
-                        privacy policy
-                      </Link>
-                    </label>
-                  </div>
+                      terms
+                    </Link>{" "}
+                    and{" "}
+                    <Link
+                      href="/privacy"
+                      className="text-blue-500 underline"
+                    >
+                      privacy policy
+                    </Link>
+                  </label>
                 </div>
+                {errors.termsAccepted && (
+                  <p className="text-red-600 text-sm">
+                    {errors.termsAccepted}
+                  </p>
+                )}
 
                 {/* Submit Button */}
                 <div>
                   <button
                     type="submit"
-                    className="flex w-full border border-black justify-center rounded-md
-                    bg-black px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm
-                    hover:bg-white transition-colors hover:text-black focus-visible:outline
-                    focus-visible:outline-2 focus-visible:outline-offset-2"
+                    disabled={loading}
+                    className={`w-full py-2 rounded-md font-semibold text-white ${
+                      loading
+                        ? "bg-gray-500 cursor-not-allowed"
+                        : "bg-indigo-600 hover:bg-indigo-700"
+                    }`}
                   >
-                    Sign up
+                    {loading
+                      ? "Submitting..."
+                      : "Submit Application"}
                   </button>
-                  {/* Display Error Message */}
-                  {error && (
-                    <p className="text-red-600 text-center text-[16px] my-4">
-                      {error}
+                  {/* Display Form Error Message */}
+                  {errors.form && (
+                    <p className="text-red-600 text-center mt-4">
+                      {errors.form}
                     </p>
                   )}
                 </div>
@@ -239,4 +441,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default ApplicationForm;

@@ -1,7 +1,31 @@
+
+import Head from 'next/head';
+
+import HeroSection from '../components/HeroSection';
+import AboutUs from '../components/AboutUs';
+import Programs from '../components/Programs';
+import Testimonials from '../components/Testimonials';
+import CallToAction from '../components/CalltoAction';
+import Footer from '../components/Footer';
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="text-5xl max-[500px]:text-2xl">Home Page</h1>
-    </main>
+    <>
+      <Head>
+        <title>Your Foundation - Empowering Communities</title>
+        <meta name="description" content="Making a positive impact through education, health, and community development programs." />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* Add more meta tags as needed */}
+      </Head>
+      
+      <main>
+        <HeroSection />
+        <AboutUs />
+        <Programs />
+        <Testimonials />
+        <CallToAction />
+      </main>
+      <Footer />
+    </>
   );
 }

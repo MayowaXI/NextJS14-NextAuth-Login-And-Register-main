@@ -1,16 +1,14 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
-
-import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { FaBars } from "react-icons/fa";
 import { FaXmark } from "react-icons/fa6";
 import Image from "next/image";
 
 const Navbar = () => {
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navigation = [
@@ -19,176 +17,136 @@ const Navbar = () => {
   ];
 
   return (
-    <>
-      {/*
-    <div>
-      <ul className="flex justify-between m-10 item-center">
-        <div>
-          <Link href="/">
-            <li>Home</li>
+    <header className="bg-white shadow-sm">
+      <nav
+        className="mx-auto flex max-w-7xl items-center justify-between gap-x-6 p-6 lg:px-8"
+        aria-label="Global"
+      >
+        {/* Logo */}
+        <div className="flex lg:flex-1">
+          <Link href="/" className="-m-1.5 p-1.5 flex items-center">
+            <Image src="/logo.svg" width={150} height={150} alt="Your Company Logo" />
+            <span className="ml-3 text-lg font-bold text-gray-900">Your Company</span>
           </Link>
         </div>
-        <div className="flex gap-10">
-          <Link href="/dashboard">
-            <li>Dashboard</li>
-          </Link>
+
+        {/* Desktop Navigation Links */}
+        <div className="hidden lg:flex lg:gap-x-12">
+          {navigation.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className="text-sm font-semibold leading-6 text-gray-900 hover:text-gray-700"
+            >
+              {item.name}
+            </Link>
+          ))}
+        </div>
+
+        {/* Login / Logout and Sign-up Buttons */}
+        <div className="flex flex-1 items-center justify-end gap-x-6">
           {!session ? (
             <>
-              <Link href="/login">
-                <li>Login</li>
+              <Link
+                href="/login"
+                className="hidden lg:block text-sm font-semibold text-gray-900 hover:text-gray-700"
+              >
+                Log in
               </Link>
-              <Link href="/register">
-                <li>Register</li>
+              <Link
+                href="/register"
+                className="rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
+              >
+                Sign up
               </Link>
             </>
           ) : (
             <>
-              {session.user?.email}
-              <li>
-                <button
-                  onClick={() => {
-                    signOut();
-                  }}
-                  className="p-2 px-5 -mt-1 bg-blue-800 rounded-full"
-                >
-                  Logout
-                </button>
-              </li>
+              <span className="hidden lg:block text-sm text-gray-800">{session.user?.email}</span>
+              <button
+                onClick={() => signOut()}
+                className="hidden lg:block rounded-full bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-500"
+              >
+                Logout
+              </button>
             </>
           )}
         </div>
-      </ul>
-    </div>
-                */}
 
-      <header className="bg-white">
-        <nav
-          className="mx-auto flex max-w-7xl items-center justify-between gap-x-6 p-6 lg:px-8"
-          aria-label="Global"
-        >
-          <div className="flex lg:flex-1">
-            <Link href="/" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
-              <Image src="/logo 1.png" width={50} height={50} alt="star logo" />
+        {/* Mobile Menu Button */}
+        <div className="flex lg:hidden">
+          <button
+            type="button"
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+            onClick={() => setMobileMenuOpen(true)}
+          >
+            <span className="sr-only">Open main menu</span>
+            <FaBars className="h-6 w-6" aria-hidden="true" />
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu Dialog */}
+      <Dialog
+        as="div"
+        className="lg:hidden"
+        open={mobileMenuOpen}
+        onClose={setMobileMenuOpen}
+      >
+        <div className="fixed inset-0 z-10" />
+        <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+          <div className="flex items-center justify-between">
+            {/* Mobile Logo */}
+            <Link href="/" className="-m-1.5 p-1.5 flex items-center">
+              <Image src="/logo.svg" width={200} height={200} alt="Your Company Logo" />
+              <span className="ml-3 text-lg font-bold text-gray-900">Your Company</span>
             </Link>
+            
+            {/* Close Button */}
+            <button
+              type="button"
+              className="-m-2.5 rounded-md p-2.5 text-gray-700"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <span className="sr-only">Close menu</span>
+              <FaXmark className="h-6 w-6" aria-hidden="true" />
+            </button>
           </div>
-          <div className="hidden lg:flex lg:gap-x-12">
+
+          {/* Mobile Navigation Links */}
+          <div className="mt-6 space-y-6">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-sm font-semibold leading-6 text-gray-900"
+                className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
               >
                 {item.name}
               </Link>
             ))}
           </div>
-          <div className="flex flex-1 items-center justify-end gap-x-6">
-            {!session ? (
-              <>
-                <Link
-                  href="/login"
-                  className="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900"
-                >
-                  Log in
-                </Link>
-                <Link
-                  href="/register"
-                  className="rounded-md bg-black px-3 py-2 border border-gray-500 border-1 text-sm font-semibold text-white shadow-sm hover:bg-white hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Sign up
-                </Link>
-              </>
-            ) : (
-              <>
-                <span className="ml-10 text-sm">{session.user?.email}</span>
 
-                <button
-                  onClick={() => {
-                    signOut();
-                  }}
-                  className="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900"
-                >
-                  Log out
-                </button>
-              </>
+          {/* Login / Logout and Sign-up Button for Mobile */}
+          <div className="mt-6">
+            {session ? (
+              <button
+                onClick={() => signOut()}
+                className="w-full rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-500"
+              >
+                Log out
+              </button>
+            ) : (
+              <Link
+                href="/register"
+                className="w-full block text-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
+              >
+                Sign up
+              </Link>
             )}
           </div>
-          <div className="flex lg:hidden">
-            <button
-              type="button"
-              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-              onClick={() => setMobileMenuOpen(true)}
-            >
-              <span className="sr-only">Open main menu</span>
-              <FaBars className="h-6 w-6" aria-hidden="true" />
-            </button>
-          </div>
-        </nav>
-        <Dialog
-          as="div"
-          className="lg:hidden"
-          open={mobileMenuOpen}
-          onClose={setMobileMenuOpen}
-        >
-          <div className="fixed inset-0 z-10" />
-          <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-            <div className="flex items-center gap-x-6">
-              <Link href="/" className="-m-1.5 p-1.5">
-                <span className="sr-only">Your Company</span>
-                <Image
-                  width={50}
-                  height={50}
-                  src="/logo 1.png"
-                  alt="star logo mobile"
-                />
-              </Link>
-              {session ? (
-                <button
-                  onClick={() => {
-                    signOut();
-                  }}
-                  className="ml-auto rounded-md bg-black border border-1 border-gray-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Log out
-                </button>
-              ) : (
-                <Link
-                  href="/register"
-                  className="ml-auto rounded-md bg-black border border-1 border-gray-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Sign up
-                </Link>
-              )}
-
-              <button
-                type="button"
-                className="-m-2.5 rounded-md p-2.5 text-gray-700"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <span className="sr-only">Close menu</span>
-                <FaXmark className="h-6 w-6" aria-hidden="true" />
-              </button>
-            </div>
-            <div className="mt-6 flow-root">
-              <div className="-my-6 divide-y divide-gray-500/10">
-                <div className="space-y-2 py-6">
-                  {navigation.map((item) => (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </Dialog.Panel>
-        </Dialog>
-      </header>
-    </>
+        </Dialog.Panel>
+      </Dialog>
+    </header>
   );
 };
 

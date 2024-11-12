@@ -23,6 +23,28 @@ const userSchema = new Schema(
     emailVerificationTokenExpires: {
       type: Date,
     },
+
+    // Application-specific fields
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+    },
+    dateOfBirth: {
+      type: Date,
+      required: true,
+    },
+    positionAppliedFor: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
