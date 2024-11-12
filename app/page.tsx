@@ -2,10 +2,8 @@
 import Head from 'next/head';
 
 import HeroSection from '../components/HeroSection';
-import AboutUs from '../components/AboutUs';
 import Programs from '../components/Programs';
 import Testimonials from '../components/Testimonials';
-import CallToAction from '../components/CalltoAction';
 import Footer from '../components/Footer';
 
 export default function Home() {
