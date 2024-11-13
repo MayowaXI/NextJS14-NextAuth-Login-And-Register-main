@@ -18,19 +18,20 @@ const NextLoginPage = () => {
     }
   }, [sessionStatus, router]);
 
-  const isValidEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+  const isValidEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(""); // Clear previous error
 
-    const email = e.target[0].value;
-    const password = e.target[1].value;
-    const rememberMe = e.target["remember-me"].checked;
+    const form = e.target as HTMLFormElement;
+    const email = (form.elements[0] as HTMLInputElement).value;
+    const password = (form.elements[1] as HTMLInputElement).value;
+    const rememberMe = (form.elements.namedItem("remember-me") as HTMLInputElement).checked;
 
     if (!isValidEmail(email)) {
       setError("Email is invalid");

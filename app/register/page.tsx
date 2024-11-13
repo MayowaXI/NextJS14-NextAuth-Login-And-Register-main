@@ -18,7 +18,7 @@ const ApplicationForm = () => {
     termsAccepted: false,
   });
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -30,14 +30,15 @@ const ApplicationForm = () => {
     }
   }, [sessionStatus, router]);
 
-  const isValidEmail = (email) => {
+  const isValidEmail = (email: string) => {
     const emailRegex =
       /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     return emailRegex.test(email);
   };
+  
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors: { [key: string]: string } = {};0
 
     if (!formData.firstName.trim()) {
       newErrors.firstName = "First Name is required";
@@ -81,7 +82,7 @@ const ApplicationForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setErrors({});
