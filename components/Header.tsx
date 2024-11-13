@@ -6,7 +6,7 @@ export default function Header() {
     <header className="w-full bg-white shadow-md">
       <div className="container mx-auto flex justify-between items-center p-4">
         <div className="text-2xl font-bold">
-          <Link href="/">
+          <Link href="/logo.svg">
             YourLogo
           </Link>
         </div>
