@@ -25,8 +25,7 @@ const Navbar = () => {
         {/* Logo */}
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5 flex items-center">
-            
-            <span className="ml-3 text-lg font-bold text-gray-900">Your Company</span>
+            <Image src="/logo.svg" width={150} height={150} alt="Your Company Logo" />            
           </Link>
         </div>
 
