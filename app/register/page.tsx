@@ -145,7 +145,7 @@ const ApplicationForm = () => {
                   {successMessage}
                 </h2>
                 <p className="mt-4">
-                  Didn't receive an email?{" "}
+                  Didn&apost receive an email?
                   <Link
                     href="/resend-verification"
                     className="text-blue-500 underline"

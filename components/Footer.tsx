@@ -63,9 +63,8 @@ export default function Footer() {
             <p className="mb-4">
               Woolworths Group acknowledges the many Traditional Owners of the lands on which we operate, and pays respect to their Elders past and present. We recognize their strengths and enduring connection to lands, waters, and skies as the Custodians of the oldest continuing cultures on the planet.
             </p>
-            <p>
-              Woolworths Group supports the invitation set out in the Uluru Statement from the Heart to walk together with Aboriginal and Torres Strait Islander peoples. We are committed to actively contributing to Australia's reconciliation journey through listening and learning.
-            </p>
+            <p>Woolworths Group supports the invitation set out in the Uluru Statement from the Heart to walk together with Aboriginal and Torres Strait Islander peoples. We are committed to actively contributing to Australia&aposs reconciliation journey through listening and learning.
+            </p>       
             <a href="#" className="text-blue-400 underline mt-4 inline-block">Read more about our commitment to reconciliation</a>
           </div>
         </div>

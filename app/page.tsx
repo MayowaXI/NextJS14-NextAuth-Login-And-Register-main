@@ -2,8 +2,10 @@
 import Head from 'next/head';
 
 import HeroSection from '../components/HeroSection';
+import AboutUs from '../components/Aboutus';
 import Programs from '../components/Programs';
 import Testimonials from '../components/Testimonials';
+import CallToAction from '../components/Calltoaction';
 import Footer from '../components/Footer';
 
 export default function Home() {
@@ -18,10 +20,10 @@ export default function Home() {
       
       <main>
         <HeroSection />
-        
+        <AboutUs />
         <Programs />
         <Testimonials />
-        
+        <CallToAction />
       </main>
       <Footer />
     </>
