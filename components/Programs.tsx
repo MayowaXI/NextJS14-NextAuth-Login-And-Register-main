@@ -30,7 +30,7 @@ const programs = [
     shortDescription: "Connect with Australia’s rich cultural heritage and vibrant traditions.",
     fullDescription:
       "Immerse yourself in the soul of Australia through authentic cultural experiences. Participate in Aboriginal art workshops, witness traditional ceremonies, and explore the stories passed down through generations. Discover the fusion of modern and traditional cultures in vibrant cities and rural communities. With guided activities, heartfelt connections, and unforgettable moments, this is a journey of discovery and respect.",
-    image: "/program4.jpg",
+    image: "/Port-Douglas-beach.jpg",
   },
 ];
 
