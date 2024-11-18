@@ -1,9 +1,11 @@
 import React from "react";
 import { getServerSession } from "next-auth";
+
 import { redirect } from "next/navigation";
 
 const Dashboard = async () => {
   const session = await getServerSession();
+  console.log("Session:", session);
 
   // Redirect if no session is found
   if (!session) {
@@ -11,7 +13,7 @@ const Dashboard = async () => {
   }
 
   // Destructure `user` from `session` safely
-  const user = session?.user || { name: "Guest", email: "Not available" };
+  const user = session?.user || { firstname: "Guest", lastname: "", email: "Not available" };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -19,7 +21,7 @@ const Dashboard = async () => {
       <header className="bg-black py-4 shadow-md">
         <div className="container mx-auto flex justify-between items-center px-6">
           <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-          <p className="text-white">Welcome, {user.name}</p>
+          <p className="text-white">Welcome, {user.email}</p>
         </div>
       </header>
 
@@ -70,7 +72,7 @@ const Dashboard = async () => {
               <li className="flex items-start">
                 <span className="w-2 h-2 bg-green-600 rounded-full mt-1"></span>
                 <p className="ml-4 text-sm text-gray-600">
-                  Email verification completed. (30/11/2024)
+                  Email verification completed. 
                 </p>
               </li>
             </ul>
@@ -98,9 +100,7 @@ const Dashboard = async () => {
                 <strong>Email:</strong> {user.email}
               </p>
             </div>
-            <button className="bg-blue-600 text-white py-2 px-4 rounded-lg w-32 hover:bg-blue-700 transition">
-  Update Profile
-</button>
+           
 
           </div>
         </div>
