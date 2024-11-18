@@ -8,13 +8,13 @@ export default function ExploreAndWinPage() {
       <section className="relative h-screen bg-cover bg-center" style={{ backgroundImage: "url('/White_sundays.png')" }}>
         <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-center text-white px-4">
           <h1 className="text-5xl font-extrabold drop-shadow-md mb-4">
-            🌍 Win a $5000 Luxury Travel Adventure! 🌍
+            🌍 Win a $5000 Luxury Travel Adventure 🌍
           </h1>
           <p className="text-lg mb-6">
             Discover paradise. Enter our competition to win a $5000 voucher for your dream destination.
           </p>
           <p className="text-sm italic text-gray-200 mb-6">
-            *Note: Open to Australian citizens only. Prize money will be directly deposited into the winner's bank account.*
+            Note: Open to Australian citizens only. Prize money will be deposited directly into the winner's bank account.
           </p>
           <Link
             href="/register"
@@ -65,10 +65,10 @@ export default function ExploreAndWinPage() {
       {/* Mid-Page Call-to-Action */}
       <section className="bg-blue-100 py-12 text-center">
         <h2 className="text-3xl font-bold text-gray-800 mb-4">
-          Ready to Win Your Dream Vacation?
+          Ready to Win Your Dream Vacation
         </h2>
         <p className="text-lg text-gray-700 mb-6">
-          Don’t wait! Enter our competition today and take the first step toward your adventure of a lifetime.
+          Do not wait. Enter our competition today and take the first step toward your adventure of a lifetime.
         </p>
         <Link
           href="/register"
@@ -133,7 +133,7 @@ export default function ExploreAndWinPage() {
               className="rounded-full shadow-md"
             />
             <p className="text-gray-700">
-              <strong>"Life-changing experience!"</strong> - Sarah, 2023 Winner
+              Life-changing experience - Sarah, 2023 Winner
             </p>
           </div>
           {/* Testimonial 2 */}
@@ -146,7 +146,7 @@ export default function ExploreAndWinPage() {
               className="rounded-full shadow-md"
             />
             <p className="text-gray-700">
-              <strong>"Unforgettable adventure!"</strong> - Mike, 2022 Winner
+              Unforgettable adventure - Mike, 2022 Winner
             </p>
           </div>
         </div>
@@ -156,13 +156,13 @@ export default function ExploreAndWinPage() {
       <section className="bg-gray-100 py-12">
         <div className="container mx-auto px-6 lg:px-16 text-center">
           <h2 className="text-3xl font-bold text-gray-800 mb-6">
-            Don’t Miss Out on This Opportunity!
+            Do not miss this opportunity
           </h2>
           <p className="text-gray-700 mb-6">
-            Hurry! Entries close <strong>14 November 2024</strong>.
+            Hurry. Entries close 14 November 2024.
           </p>
           <p className="text-sm italic text-gray-600 mb-6">
-            *Note: Open to Australian citizens only. Prize money will be directly deposited into the winner's bank account.*
+            Note: Open to Australian citizens only. Prize money will be deposited directly into the winner's bank account.
           </p>
           <Link
             href="/register"
