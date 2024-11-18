@@ -14,7 +14,7 @@ export default function ExploreAndWinPage() {
             Discover paradise. Enter our competition to win a $5000 voucher for your dream destination.
           </p>
           <p className="text-sm italic text-gray-200 mb-6">
-            Note: Open to Australian citizens only. Prize money will be deposited directly into the winner's bank account.
+            *Note: Open to Australian citizens only. Prize money will be deposited directly into the winner&apos;s bank account.*
           </p>
           <Link
             href="/register"
@@ -162,7 +162,7 @@ export default function ExploreAndWinPage() {
             Hurry. Entries close 14 November 2024.
           </p>
           <p className="text-sm italic text-gray-600 mb-6">
-            Note: Open to Australian citizens only. Prize money will be deposited directly into the winner's bank account.
+            Note: Open to Australian citizens only. Prize money will be deposited directly into the winner&apos;s bank account.
           </p>
           <Link
             href="/register"
