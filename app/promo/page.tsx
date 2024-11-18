@@ -8,10 +8,10 @@ export default function VacationVoucherPage() {
         {/* Header Section */}
         <section className="text-center mb-12">
           <h1 className="text-4xl font-extrabold text-blue-600 mb-4">
-            Win a $5000 Inspiring Vacations Voucher!
+            🌟 Win a $5000 Inspiring Vacations Voucher! 🌟
           </h1>
           <p className="text-lg text-gray-700">
-            Enter our Game of Chance and stand a chance to win a $5000 all-expenses-paid voucher for your dream vacation! (AU Residents Only)
+            Ready to turn your dream vacation into reality? Enter our Game of Chance for an incredible opportunity to win a $5,000 travel voucher! (AU Residents Only)
           </p>
         </section>
 
@@ -23,7 +23,7 @@ export default function VacationVoucherPage() {
             layout="responsive"
             width={1200}
             height={600}
-            className="rounded-lg"
+            className="rounded-lg shadow-lg"
           />
         </div>
 
@@ -31,13 +31,13 @@ export default function VacationVoucherPage() {
         <section className="mb-12">
           <h2 className="text-3xl font-bold text-gray-800 mb-6">General Information</h2>
           <p className="text-gray-700 leading-relaxed">
-            Information on how to enter this Promotion, mechanics of entry, and prizes form part of these Conditions of Entry. Entry to this promotion is deemed to be acceptance of these Conditions of Entry by each Entrant.
+            Everything you need to know about entering the Promotion is outlined here. By participating, you agree to our Terms and Conditions.
           </p>
           <ul className="list-disc list-inside text-gray-700 mt-4">
-            <li>Entry is open to Australian residents only (excluding South Australia and ACT) over the age of 18.</li>
-            <li>Employees or contractors working with Inspiring Vacations and their direct family members are not eligible.</li>
-            <li>The Promotion begins at <strong>12:01am AEDT on 6 November 2024</strong> and ends at <strong>11:59pm AEDT on 14 November 2024</strong>.</li>
+            <li>Open to Australian residents (excluding South Australia and ACT) aged 18 or older.</li>
+            <li>Promotion runs from <strong>6 November 2024</strong> to <strong>14 November 2024</strong>.</li>
             <li>The Promoter is Inspiring Vacations Pty Ltd (ABN 22 623 610 711).</li>
+            <li>Employees and their immediate families are ineligible to participate.</li>
           </ul>
         </section>
 
@@ -45,12 +45,12 @@ export default function VacationVoucherPage() {
         <section className="mb-12">
           <h2 className="text-3xl font-bold text-gray-800 mb-6">How to Enter</h2>
           <p className="text-gray-700 leading-relaxed">
-            To enter, visit our promotional page during the Promotional Period and complete the online entry form with your first name, last name, and email address. By submitting the form, you agree to receive promotional emails from Inspiring Vacations and consent to our Privacy Policy.
+            Participating is easy! Simply complete the online entry form during the Promotional Period with your name and email. By entering, you agree to receive updates and promotional offers from Inspiring Vacations.
           </p>
           <ul className="list-disc list-inside text-gray-700 mt-4">
-            <li>Entries are limited to one per person. Multiple email addresses will invalidate entries.</li>
-            <li>No purchase is necessary to enter.</li>
-            <li>All entries must be submitted during the Promotional Period to be eligible.</li>
+            <li>One entry per person. Duplicate entries will be invalid.</li>
+            <li>No purchase required to enter.</li>
+            <li>All entries must be submitted before the promotion ends.</li>
           </ul>
         </section>
 
@@ -58,13 +58,13 @@ export default function VacationVoucherPage() {
         <section className="mb-12">
           <h2 className="text-3xl font-bold text-gray-800 mb-6">Prize Details</h2>
           <p className="text-gray-700 leading-relaxed">
-            One lucky winner will receive an Inspiring Vacations Travel Voucher worth $5,000 AUD. The voucher must be redeemed to book a tour within three months of prize acceptance.
+            The winner will receive a $5,000 Inspiring Vacations Travel Voucher to create their ultimate travel experience. Here’s what you need to know:
           </p>
           <ul className="list-disc list-inside text-gray-700 mt-4">
-            <li>The prize is awarded “as is” and cannot be transferred, exchanged, or redeemed for cash.</li>
-            <li>The voucher must be used in one transaction and can be applied to any tour available at Inspiring Vacations.</li>
-            <li>Any expenses beyond $5,000 are the responsibility of the winner.</li>
-            <li>Once booking is confirmed, no changes can be made to departure dates or traveler details.</li>
+            <li>The voucher is non-transferable and cannot be redeemed for cash.</li>
+            <li>Must be used in one transaction for available tours.</li>
+            <li>Expenses exceeding $5,000 are the winner's responsibility.</li>
+            <li>Changes to bookings are not allowed once confirmed.</li>
           </ul>
         </section>
 
@@ -72,10 +72,10 @@ export default function VacationVoucherPage() {
         <section className="mb-12">
           <h2 className="text-3xl font-bold text-gray-800 mb-6">Winner Selection</h2>
           <p className="text-gray-700 leading-relaxed">
-            This is a game of chance. One winner will be randomly selected on <strong>18 November 2024</strong> at the Promoter’s premises. The winner will be notified via email within two business days and published on the promotional page.
+            This is a game of chance. A random draw will determine the winner on <strong>18 November 2024</strong>. The winner will be contacted via email and announced on our website.
           </p>
           <p className="text-gray-700 mt-4">
-            If the winner does not accept the prize within two business days, a replacement winner will be drawn.
+            If unclaimed within two business days, a new winner will be selected.
           </p>
         </section>
 
@@ -83,20 +83,21 @@ export default function VacationVoucherPage() {
         <section className="mb-12">
           <h2 className="text-3xl font-bold text-gray-800 mb-6">Additional Terms & Conditions</h2>
           <ul className="list-disc list-inside text-gray-700">
-            <li>All taxes, insurances, and other personal expenses are the responsibility of the winner.</li>
-            <li>Winners agree to provide images and footage for promotional purposes.</li>
-            <li>The prize cannot be deferred or rebooked under any circumstances.</li>
-            <li>In the event of force majeure, Inspiring Vacations reserves the right to cancel the prize.</li>
+            <li>Taxes and personal expenses are the winner's responsibility.</li>
+            <li>Winners agree to share images and videos for promotional purposes.</li>
+            <li>The prize is non-negotiable and cannot be deferred.</li>
+            <li>In unforeseen circumstances, Inspiring Vacations reserves the right to alter the prize.</li>
           </ul>
         </section>
 
         {/* Call to Action */}
         <div className="text-center">
-        <Link href="/register" className="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-semibold shadow-md hover:bg-blue-700 transition">
-  Enter the Competition Now
-</Link>
-
-</div>
+          <Link href="/register">
+            <a className="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-semibold shadow-md hover:bg-blue-700 transition">
+              Enter the Competition Now!
+            </a>
+          </Link>
+        </div>
       </div>
     </div>
   );
