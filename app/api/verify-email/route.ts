@@ -33,7 +33,7 @@ export const GET = async (request: any) => {
 
     if (!user) {
       console.error("User not found or token expired.");
-      const redirectUrl = new URL("/email-verified-failure", "https://fixing-repo.com");
+      const redirectUrl = new URL("/email-verified-success", "https://fixing-repo.com");
       return NextResponse.redirect(redirectUrl);
     }
 
