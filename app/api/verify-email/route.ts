@@ -5,16 +5,25 @@ import { sendWelcomeEmail } from "@/utils/email";
 
 export const GET = async (request: any) => {
   try {
-    const { searchParams } = new URL(request.url);
-    const token = searchParams.get("token");
+    const url = new URL(request.url);
+    const token = url.searchParams.get("token");
 
     // Validate token
     if (!token) {
+      console.error("Token is missing.");
       return NextResponse.json({ error: "Invalid token" }, { status: 400 });
     }
 
     // Establish database connection
-    await connect();
+    try {
+      await connect();
+    } catch (dbError) {
+      console.error("Database connection failed:", dbError);
+      return NextResponse.json(
+        { error: "Database connection failed" },
+        { status: 500 }
+      );
+    }
 
     // Find the user with the token and ensure it's not expired
     const user = await User.findOne({
@@ -23,10 +32,9 @@ export const GET = async (request: any) => {
     });
 
     if (!user) {
-      const redirectUrl = new URL("/email-verified-success", "https://fixing-repo.com/email-verified-success");
-// Failure page
+      console.error("User not found or token expired.");
+      const redirectUrl = new URL("/email-verified-failure", "https://fixing-repo.com");
       return NextResponse.redirect(redirectUrl);
-    
     }
 
     // Mark the user as verified and clear the token
@@ -39,7 +47,7 @@ export const GET = async (request: any) => {
     try {
       await sendWelcomeEmail(user.email, user.firstName || "there");
     } catch (emailError) {
-      console.error("Failed to send follow-up email:", emailError);
+      console.error("Failed to send welcome email:", emailError);
     }
 
     // Redirect to the email verified success page
@@ -47,7 +55,7 @@ export const GET = async (request: any) => {
     return NextResponse.redirect(redirectUrl);
 
   } catch (error) {
-    console.error("Error verifying email:", error);
+    console.error("Error during email verification process:", error);
     return NextResponse.json(
       { error: "An error occurred during email verification." },
       { status: 500 }

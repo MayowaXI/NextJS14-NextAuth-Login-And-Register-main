@@ -14,10 +14,14 @@ export const authOptions: AuthOptions = {
         email: { label: "Email", type: "email", placeholder: "you@example.com" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials: any) {
+      async authorize(credentials) {
         await connect();
 
         try {
+          if (!credentials?.email || !credentials?.password) {
+            throw new Error("Email and password are required.");
+          }
+
           // Find user by email
           const user = await User.findOne({ email: credentials.email });
 
@@ -31,42 +35,46 @@ export const authOptions: AuthOptions = {
           }
 
           // Check if password is correct
-          const isPasswordCorrect = await bcrypt.compare(
-            credentials.password,
-            user.password
-          );
+          const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
 
           if (!isPasswordCorrect) {
             throw new Error("Invalid password.");
           }
 
           // Return user object if credentials are valid and email is verified
-          return user;
-        } catch (err: any) {
-          console.error("Authorization error:", err);
-          throw new Error(err.message || "Authentication failed.");
+          return {
+            id: user.id,
+            email: user.email,
+            firstname: user.firstname, // You can map firstname here if needed
+          };
+        } catch (error: any) {
+          console.error("Authorization error:", error);
+          throw new Error(error.message || "Authentication failed.");
         }
       },
     }),
   ],
 
   callbacks: {
-    async signIn({ user }: { user: any }) {
-      // Sign-in logic is handled in `authorize`
+    async signIn({ user }) {
+      // You can handle custom sign-in logic here if needed
       return true;
     },
+
     async session({ session, token }) {
-      // Attach user ID and email to the session object
-      if (token && session.user) {
-        
+      // Attach user-related data to session
+      if (session.user) {
         session.user.email = token.email;
+        session.user.firstname = token.firstname || "Guest"; // Fallback for firstname
       }
       return session;
     },
+
     async jwt({ token, user }) {
       if (user) {
-        token.sub = user.id;
-        token.email = user.email;
+        token.sub = user.id; // Add user ID to token
+        token.email = user.email; // Add email to token
+        token.firstname = user.firstname || "Guest"; // Add firstname to token
       }
       return token;
     },
@@ -77,11 +85,12 @@ export const authOptions: AuthOptions = {
   },
 
   jwt: {
-    secret: process.env.NEXTAUTH_SECRET,
+    secret: process.env.NEXTAUTH_SECRET, // Ensure this secret is set in your environment variables
+    
   },
 
   pages: {
-    signIn: "/login",
-    error: "/login", // Redirect to the login page on error
+    signIn: "/login", // Redirect to custom sign-in page
+    error: "/login",  // Redirect to the login page on error
   },
 };

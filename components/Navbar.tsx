@@ -29,50 +29,51 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex lg:items-center lg:gap-x-12">
-          {/* Navigation Links */}
-          {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="text-sm font-semibold text-gray-900 hover:text-gray-700"
-            >
-              {item.name}
-            </Link>
-          ))}
-        </div>
+<div className="hidden lg:flex lg:items-center lg:gap-x-12">
+  {/* Navigation Links */}
+  {navigation.map((item) => (
+    <Link
+      key={item.name}
+      href={item.href}
+      className="text-sm font-semibold text-gray-900 hover:text-gray-700"
+    >
+      {item.name}
+    </Link>
+  ))}
+</div>
 
-        {/* Desktop Auth Buttons */}
-        <div className="hidden lg:flex lg:items-center lg:gap-x-8">
-          {!session ? (
-            <>
-              <Link
-                href="/login"
-                className="text-sm font-semibold text-gray-900 hover:text-gray-700"
-              >
-                Log in
-              </Link>
-              <Link
-                href="/register"
-                className="rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
-              >
-                Sign up
-              </Link>
-            </>
-          ) : (
-            <>
-              <span className="text-sm font-semibold text-gray-900">
-                {session.user?.email}
-              </span>
-              <button
-                onClick={signOut}
-                className="rounded-full bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-500"
-              >
-                Log out
-              </button>
-            </>
-          )}
-        </div>
+{/* Desktop Auth Buttons */}
+<div className="hidden lg:flex lg:items-center lg:gap-x-8">
+  {!session ? (
+    <>
+      <Link
+        href="/login"
+        className="text-sm font-semibold text-gray-900 hover:text-gray-700 ml-8"
+      >
+        Log in
+      </Link>
+      <Link
+        href="/register"
+        className="rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500 ml-4"
+      >
+        Sign up
+      </Link>
+    </>
+  ) : (
+    <>
+      <span className="text-sm font-semibold text-gray-900 ml-8">
+        {session.user?.email}
+      </span>
+      <button
+        onClick={() => signOut()} // Wrap `signOut` in an arrow function
+        className="rounded-full bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-500 ml-4"
+      >
+        Log out
+      </button>
+    </>
+  )}
+</div>
+
 
         {/* Mobile Menu Button */}
         <div className="lg:hidden">
