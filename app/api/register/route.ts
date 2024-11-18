@@ -14,7 +14,7 @@ export const POST = async (request: any) => {
       positionAppliedFor,
       dateOfBirth,
       lastName,
-      firstName
+      firstName,
     } = await request.json();
 
     await connect();
@@ -22,7 +22,10 @@ export const POST = async (request: any) => {
     // Check if the user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return new NextResponse("Email is already in use", { status: 400 });
+      return NextResponse.json(
+        { message: "Email is already associated with an account." },
+        { status: 400 }
+      );
     }
 
     // Hash the password
@@ -51,20 +54,27 @@ export const POST = async (request: any) => {
 
     // Attempt to send the verification email
     try {
-      await sendVerificationEmail(email, emailVerificationToken);
+      await sendVerificationEmail(email, firstName, emailVerificationToken);
     } catch (emailError) {
       console.error("Failed to send verification email:", emailError);
-      // Optionally inform the user to try resending verification email
+      return NextResponse.json(
+        {
+          message:
+            "Registration successful, but verification email failed to send. Please try resending the verification email.",
+        },
+        { status: 500 }
+      );
     }
 
-    return new NextResponse(
-      "Registration successful. Please verify your email.",
+    return NextResponse.json(
+      { message: "Registration successful. Please verify your email." },
       { status: 200 }
     );
   } catch (err: any) {
     console.error("Error during registration:", err);
-    return new NextResponse("An error occurred during registration.", {
-      status: 500,
-    });
+    return NextResponse.json(
+      { message: "An error occurred during registration." },
+      { status: 500 }
+    );
   }
 };

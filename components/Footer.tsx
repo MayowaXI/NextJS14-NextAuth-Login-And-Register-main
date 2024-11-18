@@ -4,73 +4,82 @@ import { FaFacebookF, FaTwitter, FaInstagram } from 'react-icons/fa';
 export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-200 py-12">
-      <div className="container mx-auto px-6 lg:px-16 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
+      {/* Footer Main Content */}
+      <div className="container mx-auto px-6 lg:px-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         
-        {/* About Us */}
+        {/* About Us Section */}
         <div>
-          <h3 className="text-xl font-semibold mb-3">About us</h3>
+          <h3 className="text-xl font-semibold mb-3">About Us</h3>
           <p className="text-gray-400 mb-4 leading-relaxed">
-            We are on a mission to deliver the best in convenience, value, and quality for our customers.
+            Delivering exceptional value and experiences. Join us on our journey to serve you better.
           </p>
-          <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md mt-2">
-            Learn more
+          <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition">
+            Learn More
           </button>
         </div>
-        
-        {/* Postal Address */}
+
+        {/* Contact Information */}
         <div>
-          <h3 className="text-xl font-semibold mb-3">Postal Address</h3>
-          <p className="text-gray-400 leading-relaxed">PO Box 8000<br />Baulkham Hills<br />NSW 2153</p>
+          <h3 className="text-xl font-semibold mb-3">Contact Information</h3>
+          <p className="text-gray-400 leading-relaxed mb-4">
+            <strong>Postal Address:</strong><br />
+            PO Box 8000, Baulkham Hills, NSW 2153
+          </p>
+          <p className="text-gray-400 leading-relaxed">
+            <strong>Street Address:</strong><br />
+            1 Woolworths Way, Bella Vista, NSW 2153
+          </p>
         </div>
 
-        {/* Privacy Office */}
+        {/* Quick Links */}
         <div>
-          <h3 className="text-xl font-semibold mb-3">Privacy Office</h3>
-          <p className="text-gray-400 leading-relaxed">PO Box 8000<br />Baulkham Hills<br />NSW 2153</p>
+          <h3 className="text-xl font-semibold mb-3">Quick Links</h3>
+          <div className="flex flex-wrap gap-2">
+            {['Home', 'About Us', 'Careers', 'Privacy Policy', 'Contact Us'].map((link, index) => (
+              <Link key={index} href={`/${link.toLowerCase().replace(' ', '-')}`}>
+                <span className="text-gray-400 hover:text-white text-sm font-medium transition">
+                  {link}
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
 
-        {/* Street Address */}
+        {/* Follow Us Section */}
         <div>
-          <h3 className="text-xl font-semibold mb-3">Street Address</h3>
-          <p className="text-gray-400 leading-relaxed">1 Woolworths Way<br />Bella Vista<br />NSW 2153</p>
-        </div>
-
-        {/* Phone */}
-        <div>
-          <h3 className="text-xl font-semibold mb-3">Phone</h3>
-          <p className="text-gray-400 leading-relaxed">1300 908 631</p>
+          <h3 className="text-xl font-semibold mb-3">Follow Us</h3>
+          <div className="flex gap-4">
+            <Link href="#" aria-label="Facebook" className="text-gray-400 hover:text-blue-500 transition">
+              <FaFacebookF size={20} />
+            </Link>
+            <Link href="#" aria-label="Twitter" className="text-gray-400 hover:text-blue-400 transition">
+              <FaTwitter size={20} />
+            </Link>
+            <Link href="#" aria-label="Instagram" className="text-gray-400 hover:text-pink-500 transition">
+              <FaInstagram size={20} />
+            </Link>
+          </div>
         </div>
       </div>
 
-      {/* Links Section */}
-      <div className="container mx-auto px-6 lg:px-16 mt-10 flex flex-wrap justify-center gap-4 text-center">
-        {["Home", "About Us", "Investors", "Media", "Privacy", "Careers", "Contact Us"].map((link, index) => (
-          <Link key={index} href={`/${link.toLowerCase().replace(" ", "")}`}>
-            <span className="text-gray-400 hover:text-white text-sm font-medium cursor-pointer">
-              {link}
-            </span>
-          </Link>
-        ))}
-      </div>
-
-      {/* Acknowledgement Section */}
+      {/* Acknowledgment Section */}
       <div className="container mx-auto px-6 lg:px-16 mt-10 border-t border-gray-700 pt-8">
-        <div className="flex flex-col md:flex-row items-center md:items-start text-gray-400 space-y-4 md:space-y-0">
+        <div className="flex flex-col md:flex-row items-center md:items-start text-gray-400">
           <div className="mr-4 flex-shrink-0">
-            <img src="/care_deeply.svg" alt="Acknowledgement Icon" className="w-12 h-12" />
+            <img src="/care_deeply.svg" alt="Acknowledgment Icon" className="w-12 h-12" />
           </div>
           <div className="text-center md:text-left max-w-3xl">
             <p className="mb-4">
-              Woolworths Group acknowledges the many Traditional Owners of the lands on which we operate, and pays respect to their Elders past and present. We recognize their strengths and enduring connection to lands, waters, and skies as the Custodians of the oldest continuing cultures on the planet.
+              We acknowledge the Traditional Owners of the lands where we operate and pay respects to Elders past, present, and emerging. Their wisdom and connection to the land inspire us every day.
             </p>
-            <p>Woolworths Group supports the invitation set out in the Uluru Statement from the Heart to walk together with Aboriginal and Torres Strait Islander peoples. We are committed to actively contributing to Australia&aposs reconciliation journey through listening and learning.
-            </p>       
-            <a href="#" className="text-blue-400 underline mt-4 inline-block">Read more about our commitment to reconciliation</a>
+            <Link href="#" className="text-blue-400 underline hover:text-blue-300 transition">
+              Learn more about our commitment to reconciliation
+            </Link>
           </div>
         </div>
       </div>
 
-      {/* Footer Bottom */}
+      {/* Footer Bottom Section */}
       <div className="container mx-auto px-6 lg:px-16 text-center mt-8 border-t border-gray-700 pt-4">
         <p className="text-gray-500 text-sm">
           &copy; {new Date().getFullYear()} Woolworths Group. All rights reserved.
