@@ -62,7 +62,7 @@ const Dashboard = async () => {
             <h2 className="text-lg font-bold text-gray-800 mb-4">Notifications</h2>
             <ul className="space-y-2">
               <li className="flex items-start">
-                <span className="w-2 h-2 bg-blue-600 rounded-full mt-1"></span>
+                <span className="w-2 h-2 bg-black rounded-full mt-1"></span>
                 <p className="ml-4 text-sm text-gray-600">
                   Your application is being reviewed. (01/12/2024)
                 </p>
@@ -80,7 +80,7 @@ const Dashboard = async () => {
           <div className="bg-white rounded-lg shadow-md p-6">
             <h2 className="text-lg font-bold text-gray-800 mb-4">Application Progress</h2>
             <div className="relative w-full bg-gray-200 rounded-full h-4">
-              <div className="absolute bg-blue-600 h-4 rounded-full" style={{ width: "70%" }}></div>
+              <div className="absolute bg-blue-black h-4 rounded-full" style={{ width: "70%" }}></div>
             </div>
             <p className="text-sm text-gray-600 mt-2">70% Complete - Pending Identity Verification</p>
           </div>
@@ -98,9 +98,10 @@ const Dashboard = async () => {
                 <strong>Email:</strong> {user.email}
               </p>
             </div>
-            <button className="w-full md:w-auto bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition">
-              Update Profile
-            </button>
+            <button className="bg-blue-600 text-white py-2 px-4 rounded-lg w-32 hover:bg-blue-700 transition">
+  Update Profile
+</button>
+
           </div>
         </div>
       </main>
