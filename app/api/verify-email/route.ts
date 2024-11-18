@@ -23,7 +23,7 @@ export const GET = async (request: any) => {
     });
 
     if (!user) {
-      const redirectUrl = new URL("/email-verified-failure", "https://fixing-repo.com/email-verified-success");
+      const redirectUrl = new URL("/email-verified-success", "https://fixing-repo.com/email-verified-success");
 // Failure page
       return NextResponse.redirect(redirectUrl);
     
