@@ -23,10 +23,9 @@ export const GET = async (request: any) => {
     });
 
     if (!user) {
-      return NextResponse.json(
-        { error: "Token is invalid or has expired" },
-        { status: 400 }
-      );
+      const redirectUrl = new URL("/email-verified-failure", request.url); // Failure page
+      return NextResponse.redirect(redirectUrl);
+    
     }
 
     // Mark the user as verified and clear the token
