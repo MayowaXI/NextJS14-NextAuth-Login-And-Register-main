@@ -37,7 +37,7 @@ export const GET = async (request: any) => {
     }
 
     // Redirect to success page after successful verification
-    return NextResponse.redirect("/email-verified-success");
+    return NextResponse.redirect(new URL("/email-verified-success", request.url));
   } catch (err) {
     console.error("Error verifying email:", err);
     return new NextResponse("An error occurred during email verification.", {
