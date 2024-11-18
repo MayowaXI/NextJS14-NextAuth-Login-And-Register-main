@@ -93,9 +93,7 @@ const Dashboard = async () => {
           <h2 className="text-lg font-bold text-gray-800 mb-4">Your Profile</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <p className="text-sm text-gray-600">
-                <strong>Name:</strong> {user.name}
-              </p>
+              
               <p className="text-sm text-gray-600">
                 <strong>Email:</strong> {user.email}
               </p>

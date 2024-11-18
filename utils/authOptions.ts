@@ -65,7 +65,6 @@ export const authOptions: AuthOptions = {
       // Attach user-related data to session
       if (session.user) {
         session.user.email = token.email;
-        session.user.firstname = token.firstname || "Guest"; // Fallback for firstname
       }
       return session;
     },
@@ -74,7 +73,7 @@ export const authOptions: AuthOptions = {
       if (user) {
         token.sub = user.id; // Add user ID to token
         token.email = user.email; // Add email to token
-        token.firstname = user.firstname || "Guest"; // Add firstname to token
+        
       }
       return token;
     },
