@@ -82,7 +82,7 @@ const Dashboard = async () => {
           <div className="bg-white rounded-lg shadow-md p-6">
             <h2 className="text-lg font-bold text-gray-800 mb-4">Application Progress</h2>
             <div className="relative w-full bg-gray-200 rounded-full h-4">
-              <div className="absolute bg-blue-black h-4 rounded-full" style={{ width: "70%" }}></div>
+              <div className="absolute bg-black h-4 rounded-full" style={{ width: "70%" }}></div>
             </div>
             <p className="text-sm text-gray-600 mt-2">70% Complete - Pending Identity Verification</p>
           </div>
