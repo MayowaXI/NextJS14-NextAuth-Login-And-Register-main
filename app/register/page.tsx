@@ -246,7 +246,7 @@ const ApplicationForm = () => {
                 {/* Position Applied For */}
                 <div>
                   <label className="block text-sm font-medium text-gray-900 mb-1">
-                    Position Applied For
+                    Nickname
                   </label>
                   <input
                     name="positionAppliedFor"
