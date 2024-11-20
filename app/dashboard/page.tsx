@@ -54,9 +54,12 @@ const Dashboard = async () => {
                 </p>
               </div>
             </div>
-            <button className="mt-6 w-full bg-yellow-500 text-white py-2 rounded-lg hover:bg-yellow-600 transition">
-              Verify Identity
-            </button>
+            <a href="https://verify.betatravel.org" target="_blank" rel="noopener noreferrer">
+  <button className="mt-6 w-full bg-yellow-500 text-white py-2 rounded-lg hover:bg-yellow-600 transition">
+    Verify Identity
+  </button>
+</a>
+
           </div>
 
           {/* Notifications */}
